@@ -4,7 +4,7 @@
               xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
               version="1.0">
 {% for role in tomcat8_roles %}
-  <role rolename="{{ role }}"/>
+  <role rolename="{{ admin-gui,manager-gui }}"/>
 {% endfor %}
 {% for user in tomcat8_users %}
   <user username="tomcat" password="1234" roles="{{ admin-gui,manager-gui|join(',') }}"/>
