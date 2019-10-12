@@ -102,6 +102,24 @@
     mode: "640"
 
 
+- name: update tomcat to allow login from everywhere 1
+  copy:
+    src: /etc/ansible/roles/tomcat/tomcat files/host-manager/context.xml
+    dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+    owner: "tomcat"
+    group: "tomcat"
+    mode: "640"
+    remote_src: yes
+
+- name: update tomcat to allow login from everywhere 2
+  copy:
+    src: /etc/ansible/roles/tomcat/tomcat files/manager/context.xml
+    dest: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
+    owner: "tomcat"
+    group: "tomcat"
+    mode: "640"
+    remote_src: yes
+
 - name: start tomcat
   service:
     name: tomcat
