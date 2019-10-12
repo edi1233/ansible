@@ -96,7 +96,7 @@
 - name: template tomcat-users.xml
   template:
     src: tomcat-users.xml.j2
-    dest: "/opt/tomcat/conf/tomcat-users.xml"
+    dest: "/opt/tomcat/latest/conf/tomcat-users.xml"
     owner: "tomcat"
     group: "tomcat"
     mode: "640"
