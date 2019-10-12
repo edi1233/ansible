@@ -7,6 +7,6 @@
   <role rolename="admin-gui,manager-gui"/>
 {% endfor %}
 {% for user in tomcat8_users %}
-  <user username="tomcat" password="1234" roles="{{ admin-gui,manager-gui|join(',') }}"/>
+  <user username="tomcat" password="1234" roles="admin-gui,manager-gui|join(',')"/>
 {% endfor %}
 </tomcat-users>
