@@ -93,6 +93,15 @@
 - name: permission 12
   file: dest=/opt/tomcat/apache-tomcat-8.5.46/conf owner=root group=tomcat mode=0775 recurse=yes
 
+- name: template tomcat-users.xml
+  template:
+    src: tomcat-users.xml.j2
+    dest: "/opt/tomcat/conf/tomcat-users.xml"
+    owner: "tomcat"
+    group: "tomcat"
+    mode: "640"
+
+
 - name: start tomcat
   service:
     name: tomcat
