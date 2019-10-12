@@ -1,0 +1,41 @@
+ - name: Include distribution-specific variables
+   include_vars: "{{ ansible_distribution }}.yml"
+
+ - name: Download Latest Wordpress Version 
+   get_url: 
+     url: http://wordpress.org/latest.tar.gz 
+     dest: /var/www/latest.tar.gz
+
+ - name: Extract foo.tgz into /var/lib/foo
+   unarchive:
+     src: /var/www/latest.tar.gz
+     dest: /var/www/
+     remote_src: yes 
+
+ - name: insert/update "Match User" configuration block in /etc/ssh/sshd_config
+   blockinfile:
+     path: /etc/httpd/conf/httpd.conf
+     block: |
+       <VirtualHost 192.168.60.110:44333>
+        SSLEngine On
+        SSLCertificateFile /var/ssl/cloudflare.crt
+        SSLCertificateKeyFile /var/ssl/cloudflare.key
+        </Location>
+        </VirtualHost>
+  
+ - name: create wordpress wp-config file 
+   copy:
+     src: /var/www/wordpress/wp-config-sample.php
+     dest: /var/www/wordpress/wp-config.php
+     remote_src: yes
+ 
+ - name: Wordpress config file
+   template:
+     src: wp-config.php.j2
+     dest: "{{ wordpress_configuration }}"
+     owner: root
+     group: apache
+     mode: '0664'
+     setype: etc_t
+     
+

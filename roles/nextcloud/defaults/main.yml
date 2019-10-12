@@ -1,0 +1,29 @@
+# EPEL REALEASE
+
+epel_repo_url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+epel_repo_gpg_key_url: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+epel_repofile_path: "/etc/yum.repos.d/epel.repo" 
+
+
+# OpenJDK implementation
+java_open_jdk_package: openjdk-{{ java_open_jdk_version_major }}-jdk-headless
+java_open_jdk_home_dir: java-{{ java_open_jdk_version_major }}-openjdk-amd64
+java_open_jdk_home: /usr/lib/jvm/{{ java_open_jdk_home_dir }}
+java_open_jdk_default_java_home: /usr/lib/jvm/default-java 
+
+
+
+
+yum_php_version: "7"
+
+yum_php_packages:
+  - php-cli
+  - php-common
+  - php-fpm
+  - php-json
+ #- php{{ yum_php_version }}-mbstring
+ #- php{{ yum_php_version }}-pear
+
+# PHP-FPM FastCGI.
+centos_php_fastcgi_listen: "/run/php-fpm/www.sock"
+centos_nginx_fastcgi_server: "unix:{{ centos_php_fastcgi_listen }}"

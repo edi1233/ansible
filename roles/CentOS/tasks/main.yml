@@ -1,0 +1,14 @@
+- name: Include distribution dependent variables
+   include_vars: "{{ item }}"
+   with_first_found:
+     - "{{ ansible_distribution }}.yml"
+     - "{{ ansible_os_family }}.yml" 
+
+- name: Install apache & php
+  include_tasks: web.yml
+
+- name: install and configure mariadb
+  include_tasks: mariadb.yml 
+
+- name: install and configure wordpress
+  include_tasks: wordpress.yml 

@@ -1,0 +1,15 @@
+ - name: epel-release
+   include_tasks: epel-release.yml
+  
+ - name: web
+   include_tasks: web.yml 
+
+ - name: mariadb 
+   include_tasks: mariadb.yml 
+   
+ - name: mariadb2 
+   include_tasks: mariadb1.yml
+
+ - name: mariadb3
+   include_tasks: nextcloud.yml
+

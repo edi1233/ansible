@@ -1,0 +1,18 @@
+
+- name: install and configure mariadb
+  include_tasks: mariadb.yml 
+
+- name: install git
+  include_tasks: git.yml 
+
+
+- name: eplel release
+  include_tasks: epel-release.yml 
+
+- name: ansible
+  include_tasks: ansible.yml 
+
+
+- name: semphore
+  include_tasks: semaphore.yml 
+   

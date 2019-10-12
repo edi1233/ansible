@@ -1,0 +1,30 @@
+ - name: Ensure Samba-related packages are installed.
+   package: "name={{ item }} state=installed"
+   with_items:
+     - samba
+     - samba-client
+     - samba-common
+     - cifs-utils
+
+ 
+ - name: enable smb service 
+   service:
+     name: smb.service
+     enabled: yes 
+    
+ - name: enable nmb service
+   service:
+     name: nmb.service
+     enabled: yes 
+ 
+ - name: clear samba conf file
+   file: path=/etc/samba/smb.conf state=absent 
+
+ - name: Ansible create new file with permissions example.
+   file:
+     path: "/etc/samba/smb.conf"
+     state: touch
+     mode: 0664
+     owner: root
+ 
+  

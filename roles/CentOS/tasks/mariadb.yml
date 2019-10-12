@@ -1,0 +1,63 @@
+- name: Add official MariaDB repository
+   yum_repository:
+     name: MariaDB
+     description: Official MariaDB repository
+     baseurl: "http://yum.mariadb.org/10.1/centos7-amd64"
+     gpgkey: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"
+     gpgcheck: true 
+
+
+ - name: Install packages
+   package:
+     name: "{{ item }}"
+     state: installed
+   with_items: MariaDB-server , MariaDB-client
+ 
+  
+
+ - name: ensuhre service is ruuning
+   service:
+     name: 'mariadb'
+     state: 'restarted'
+  
+ - name: delete anonymous MySQL server user
+   action: mysql_user user="" host="{{ ansible_hostname }}" state="absent"
+
+ - name: delete anonymous MySQL server user for localhost
+   action: mysql_user user="" state="absent"
+
+ - name: remove the MySQL test database
+   action: mysql_db db=test state=absent
+  
+
+ - name: Change root user password on first run
+   mysql_user: login_user=root
+               login_password=''
+               name=root
+               password={{ mysql_root_pass }}
+               priv=*.*:ALL,GRANT
+               host={{ item }}
+   with_items:
+     - "{{ ansible_hostname }}"
+     - localhost
+ 
+ - name: Create a new database
+   mysql_db:
+     name: "{{ db1_name }}"
+     state: present
+     login_host: localhost
+     login_port: "{{ mysql_port }}"
+     login_user: "{{ mysql_root }}"
+     login_password: "{{ mysql_root_pass }}"
+  
+ - name: Create user and grant privileges for database
+   mysql_user:
+     name: "{{ dbuser1_name }}"
+     host: "{{ ansible_hostname }}"
+     password: "{{ dbuser1_pass }}"
+     priv: '{{ dbuser1_name  }}.*:ALL'
+     state: present
+     login_host: localhost
+     login_port: "{{ mysql_port }}"
+     login_user: "{{ mysql_root }}"
+     login_password: "{{ mysql_root_pass }}"

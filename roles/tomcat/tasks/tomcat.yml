@@ -1,0 +1,100 @@
+- name: install wget 
+  package: 
+    name: wget 
+    state: installed
+ 
+ 
+- name: group add
+  group:
+    name: tomcat
+    state: present
+
+
+- name: Add the user
+  user:
+    name: tomcat
+    shell: /bin/bash
+    groups: tomcat
+
+- name: Creates directory
+  file:
+    path: /opt/tomcat
+    state: directory
+    owner: root
+    group: tomcat
+    mode: 0775
+ 
+ 
+- name: download and unzip unurchive tomcat 8
+  unarchive:
+    src: http://apache.spd.co.il/tomcat/tomcat-8/v8.5.46/bin/apache-tomcat-8.5.46.tar.gz
+    dest: /opt/tomcat
+    remote_src: yes 
+
+- name: Ansible create new file with permissions example.
+  file:
+    path: /etc/systemd/system/tomcat.service
+    state: touch
+    mode: 0777
+    group: tomcat
+    owner: root
+  
+- name: create symbolic link latest which will point to the Tomcat installation
+  command: ln -s /opt/tomcat/apache-tomcat-8.5.46 /opt/tomcat/latest
+
+- name: navigate to to tomcat folder
+  command: cd /opt/tomcat/apache-tomcat-8.5.46 
+
+- name: permission 0 
+  command: chgrp -R tomcat /opt/tomcat/apache-tomcat-8.5.46/conf
+
+- name: permission 1
+  command: chmod g+rwx /opt/tomcat/apache-tomcat-8.5.46/conf
+
+- name: permission 2
+  command: chmod g+r /opt/tomcat/apache-tomcat-8.5.46/conf
+
+- name: permission 3
+  command: chown -R tomcat /opt/tomcat/apache-tomcat-8.5.46/webapps
+
+- name: permission 4
+  command: chown -R tomcat /opt/tomcat/apache-tomcat-8.5.46/work
+
+- name: permission 5
+  command: chown -R tomcat /opt/tomcat/apache-tomcat-8.5.46/temp
+
+- name: permission 6
+  command: chown -R tomcat /opt/tomcat/apache-tomcat-8.5.46/logs 
+
+- name: permission 7
+  command: chgrp -R tomcat /opt/tomcat/apache-tomcat-8.5.46/bin
+
+- name: permission 8
+  command: chgrp -R tomcat /opt/tomcat/apache-tomcat-8.5.46/lib
+
+- name: permission 9
+  command: chmod g+rwx /opt/tomcat/apache-tomcat-8.5.46/bin
+
+- name: permission 10
+  command: chmod g+r /opt/tomcat/apache-tomcat-8.5.46/bin
+
+- name: Make the scripts inside bin directory executable
+  command: sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+ 
+- name: create tomcat.service file 
+  copy:
+    src: /etc/ansible/roles/tomcat/tomcat.service
+    dest: /etc/systemd/system/tomcat.service
+     
+
+- name: permission 11
+  command: systemctl daemon-reload 
+
+- name: permission 12
+  file: dest=/opt/tomcat/apache-tomcat-8.5.46/conf owner=root group=tomcat mode=0775 recurse=yes
+
+- name: start tomcat
+  service:
+    name: tomcat
+    state: restarted
+ 

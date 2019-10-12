@@ -1,0 +1,39 @@
+
+ - name: install apache 
+   yum: 
+     name: httpd
+     state: latest 
+ - name: Install requires package with yum
+   yum:
+     name: libselinux-python , epel-release , MySQL-python
+     state: installed
+ - name: Install the remi and ius repo from remote repo
+   yum:
+     name:
+       - "http://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm"
+ 
+ - name: Install PHP 7 Packages
+   yum:
+     name: "{{ item }}"
+     state: latest
+   with_items: 
+   - php
+   - php-common
+   - php-mysql 
+   - php-gd 
+   - php-xml 
+   - php-mbstring 
+   - php-mcrypt
+
+ - name: enable apache
+   service:
+     name: httpd
+     enabled: yes 
+
+ - name: Start service httpd, if not started
+   service:
+     name: httpd
+     state: started
+  
+ 
+   

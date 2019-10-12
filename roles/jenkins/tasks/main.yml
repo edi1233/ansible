@@ -1,0 +1,8 @@
+ - name: add epel-release
+   include_tasks: epel-release.yml
+
+ - name: install openjdk
+   include_tasks: openjdk.yml
+
+ - name: install jenkins
+   include_tasks: jenkins.yml

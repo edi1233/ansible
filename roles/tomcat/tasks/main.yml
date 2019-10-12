@@ -1,0 +1,9 @@
+ - name: epel-release
+   include_tasks: epel-release.yml
+  
+ - name: openjdk
+   include_tasks: openjdk.yml 
+
+ - name: users 
+   include_tasks: tomcat.yml
+ 

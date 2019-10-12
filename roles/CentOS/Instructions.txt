@@ -1,0 +1,73 @@
+Central Ansible PlayBook: 
+
+- hosts: centos
+  roles:
+  - centos 
+
+
+Run the PlayBook: 
+ansible-playbook playbook.yml --extra-vars   
+
+ansible-playbook playbook.yml --extra-vars “mysql_root_password=’’ db1_name =’’ mysql_port =’’  mysql_root=’’  mysql_root_pass =’’ dbuser1_name =’’ dbuser1_pass=’’ wordpress_configuration =’’ wordpress_database_host=’’  wordpress_database=’’ wordpress_password=’’ wordpress_user=’’ “    
+
+
+
+Ansible wordpress extra vars 
+
+•	mysql_root_password 
+•	db1_name 
+•	mysql_port 
+•	mysql_root 
+•	mysql_root_pass 
+•	dbuser1_name 
+•	dbuser1_pass
+•	wordpress_configuration 
+•	wordpress_database_host 
+•	wordpress_database 
+•	wordpress_password 
+•	wordpress_user    
+
+
+
+Ansible wordpress build: 
++-- ansible.cfg
++-- hosts
++-- Instructions.txt
++-- playbook.yml
++-- roles
+¦   +-- CentOS
+¦       +-- tasks
+¦       ¦   +-- main.yml
+¦       ¦   +-- mariadb.yml
+¦       ¦   +-- web.yml
+¦       ¦   +-- wordpress.yml
+¦       +-- templates
+¦       ¦   +-- etc_my.cnf.d_custom.cnf.j2
+¦       ¦   +-- etc_my.cnf.d_network.cnf.j2
+¦       ¦   +-- etc_my.cnf.d_server.cnf.j2
+¦       ¦   +-- wordpress.conf.j2
+¦       ¦   +-- wp-config.php.j2
+¦       +-- vars
+¦           +-- CentOS.yml
+¦           +-- Fedora.yml
+¦           +-- RedHat.yml
++-- setup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

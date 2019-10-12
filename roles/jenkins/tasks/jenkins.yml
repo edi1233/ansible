@@ -1,0 +1,29 @@
+ - rpm_key:
+     state: present
+     key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+ 
+ - name: install wget
+   package:
+     name: wget
+     state: installed 
+
+ - name: return motd to registered var
+   command: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+ 
+ - name: install jenkins 
+   package: 
+     name: jenkins
+     state: installed 
+  
+
+ - name: enable jenkins
+   service:
+     name: jenkins
+     enabled: yes
+
+ - name: start jenkins
+   service:
+     name: jenkins
+     state: started
+  

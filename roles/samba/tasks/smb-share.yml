@@ -1,0 +1,44 @@
+
+ - name: add configuration to smb.conf 
+   blockinfile:
+     path: /etc/samba/smb.conf
+     block: |
+       [global]
+       netbios name = centos
+       printcap name = cups
+       security = user
+       idmap config * : backend = tdb
+       cups options = raw 
+       [tomcat]
+       comment = Secure File Server Share
+       path = /opt/tomcat
+       valid users = @root
+       writable = yes
+       browsable = yes
+       create mask = 0664
+       force create mode = 0664
+       directory mask = 0775
+       force directory mode = 0775
+       force group =  tomcat
+       force user = root
+       hide files = /ssl/
+       veto files = /ssl/ 
+
+ - name: Recursively change ownership of a directory
+   file:
+     path: /opt
+     state: directory
+     recurse: yes
+     owner: root
+     group: tomcat
+ 
+ 
+ - name: Start smb service
+   service:
+     name: smb.service
+     state: started 
+
+ - name: Start smb service
+   service:
+     name: nmb.service
+     state: started

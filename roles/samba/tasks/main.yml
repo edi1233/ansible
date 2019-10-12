@@ -1,0 +1,11 @@
+ - name: samba
+   include_tasks: install-samba.yml
+  
+ - name: groups
+   include_tasks: smb-groups.yml 
+
+ - name: users 
+   include_tasks: smb-users.yml
+
+ - name: users 
+   include_tasks: smb-share.yml

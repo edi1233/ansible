@@ -1,0 +1,33 @@
+ - name: download next-cloud 
+   command: curl -o nextcloud-17.0.0.tar.bz2 https://download.nextcloud.com/server/releases/nextcloud-17.0.0.tar.bz2
+
+ - name: unarchive next-cloud 
+   unarchive:
+     src: /root/nextcloud-17.0.0.tar.bz2
+     dest: /var/www/
+     remote_src: yes 
+
+ - name: change permissions to nextcloud 
+   command: chown -R apache /var/www/nextcloud
+
+ - name: create nextcloud.conf file 
+   copy:
+     src: /etc/ansible/roles/nextcloud/nextcloud.conf
+     dest: /etc/httpd/conf.d/nextcloud.conf 
+
+ -  name: restart apache
+    service:
+      name: httpd
+      state: restarted  
+
+ - name: addons to enable selinux 1 
+   command: yum whatprovides semanage -y 
+
+ - name: addons to enable selinux 2 
+   command: yum -y install policycoreutils-python
+
+ - name: addons to enable selinux 3 
+   command: yum whatprovides semanage -y 
+
+ - script: /etc/ansible/roles/nextcloud/selinux.sh
+     

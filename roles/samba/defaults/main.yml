@@ -1,0 +1,15 @@
+samba_groups: 
+  - tomcat
+  - dev 
+  - system 
+
+samba_users: 
+  - name: "{{ name1 }}"
+    groups: 
+      - "{{ group1 }}"
+    smbpasswd: "{{ pass1 }}"
+  #- name: "{{ name2 }}"
+    #groups: 
+      #- "{{ group2 }}"
+    #smbpasswd: "{{ pass2 }}"
+
