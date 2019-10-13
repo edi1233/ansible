@@ -109,7 +109,7 @@
     owner: "tomcat"
     group: "tomcat"
     mode: "640"
-    remote_src: yes
+    
 
 - name: update tomcat to allow login from everywhere 2
   copy:
@@ -118,7 +118,7 @@
     owner: "tomcat"
     group: "tomcat"
     mode: "640"
-    remote_src: yes
+    
 
 - name: start tomcat
   service:
