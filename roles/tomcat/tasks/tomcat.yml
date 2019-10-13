@@ -93,7 +93,7 @@
 - name: permission 12
   file: dest=/opt/tomcat/apache-tomcat-8.5.46/conf owner=root group=tomcat mode=0775 recurse=yes
 
-- name: update tomcat to allow login from everywhere 1
+- name: update tomcat-users.xml
   copy:
     src: /etc/ansible/roles/tomcat/tomcatfiles/conf/tomcat-users.xml
     dest: /opt/tomcat/latest/conf/tomcat-users.xml
