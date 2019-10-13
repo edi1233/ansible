@@ -3,10 +3,16 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
               version="1.0">
-{% for role in tomcat8_roles %}
-  <role rolename="admin-gui,manager-gui"/>
+{% for role in tomcat8_role %}
+  <role rolename="admin-gui"/>
 {% endfor %}
 {% for user in tomcat8_users %}
-  <user username="tomcat" password="1234" roles="admin-gui,manager-gui|join(',')"/>
+  <user username="tomcat" password="1234" roles="admin-gui|join(',')"/>
+{% endfor %}
+{% for role in tomcat8_roles1 %}
+  <role rolename="manager-gui"/>
+{% endfor %}
+{% for user in tomcat8_users1 %}
+  <user username="tomcat1" password="1234" roles="manager-gui|join(',')"/>
 {% endfor %}
 </tomcat-users>

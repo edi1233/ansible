@@ -1,0 +1,1 @@
+ansible-playbook playbook.yml --extra-vars "tomcat8_roles=admin-gui,manager-gui tomcat8_users=tomcat"
