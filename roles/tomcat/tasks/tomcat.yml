@@ -104,7 +104,7 @@
 
 - name: update tomcat to allow login from everywhere 1
   copy:
-    src: /etc/ansible/roles/tomcat/tomcat files/host-manager/context.xml
+    src: /etc/ansible/roles/tomcat/tomcatfiles/host-manager/context.xml
     dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
     owner: "tomcat"
     group: "tomcat"
@@ -113,7 +113,7 @@
 
 - name: update tomcat to allow login from everywhere 2
   copy:
-    src: /etc/ansible/roles/tomcat/tomcat files/manager/context.xml
+    src: /etc/ansible/roles/tomcat/tomcatfiles/manager/context.xml
     dest: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
     owner: "tomcat"
     group: "tomcat"
