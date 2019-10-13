@@ -1,0 +1,51 @@
+
+ - name: Install the remi and ius repo from remote repo
+   yum:
+     name:
+       - "http://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm"
+ 
+ - name: install apache 
+   yum: 
+     name: httpd
+     state: latest 
+ 
+ - name: Install requires package with yum
+   yum:
+     name: libselinux-python , epel-release , MySQL-python
+     state: installed
+ 
+ - name: disable php 5 
+   command: yum-config-manager --disable remi-php54
+
+ - name: enable php 7
+   command: yum-config-manager --enable remi-php73
+
+ - name: Install PHP 7 Packages
+   yum:
+     name: "{{ item }}"
+     state: latest
+   with_items: 
+     - php
+     - php-common
+     - php-mysql 
+     - php-gd 
+     - php-xml 
+     - php-mbstring 
+     - php-mcrypt
+     - php-pecl-zip
+     - php-fpm 
+     - php-intl
+
+
+ - name: enable apache
+   service:
+     name: httpd
+     enabled: yes 
+
+ - name: Start service httpd, if not started
+   service:
+     name: httpd
+     state: started
+  
+ 
+   
