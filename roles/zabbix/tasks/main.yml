@@ -1,0 +1,12 @@
+- name: epel-release
+  include_tasks: epel-release.yml
+
+- name: web
+  include_tasks: web.yml
+
+- name: mariadb
+  include_tasks: mariadb.yml
+
+- name: zabbix 
+  include_tasks: zabbix.yml
+ 

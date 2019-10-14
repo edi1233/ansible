@@ -1,0 +1,23 @@
+# roles/centos/vars/CentOS.yml
+---
+
+mariadb_packages:
+  - MariaDB-common
+  - MariaDB-server
+  - MySQL-python
+
+mariadb_socket: /var/lib/mysql/mysql.sock
+
+mariadb_config_network: /etc/my.cnf.d/network.cnf
+mariadb_config_server: /etc/my.cnf.d/server.cnf
+mariadb_config_custom: /etc/my.cnf.d/custom.cnf
+
+wordpress_directory: '/var/www/wordpress'
+
+wordpress_httpd_configuration: '/etc/httpd/conf.d/httpd.conf'
+wordpress_configuration: '/var/www/wordpress/wp-config.php'
+
+wordpress_plugin_directory: "{{ wordpress_directory }}/wp-content/plugins"
+wordpress_theme_directory: "{{ wordpress_directory }}/wp-content/themes"
+
+wordpress_httpd_service: '/usr/lib/systemd/system/httpd.service'

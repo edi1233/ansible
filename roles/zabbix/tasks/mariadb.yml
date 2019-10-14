@@ -48,8 +48,8 @@
     state: present
     login_user: root
     login_password: "{{ mysql_root_pass }}"
-    login_host: "{{ zabbix_mysql_host }}"
-    login_port: "{{ zabbix_mysql_port }}"
+    login_host: localhost
+    login_port: 3306
   
 
 - name: Create user and grant privileges for database
@@ -60,7 +60,7 @@
      priv: '{{ dbuser1_name  }}.*:ALL'
      state: present
      login_host: localhost
-     login_port: "{{ mysql_port }}"
-     login_user: "{{ mysql_root }}"
+     login_port: 3306
+     login_user: root
      login_password: "{{ mysql_root_pass }}"
  
