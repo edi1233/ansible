@@ -2,7 +2,7 @@
   yum_repository:
     name: MariaDB
     description: Official MariaDB repository
-    baseurl: "http://yum.mariadb.org/10.1/centos7-amd64"
+    baseurl: "http://yum.mariadb.org/10.4/centos7-amd64"
     gpgkey: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"
     gpgcheck: true 
 
@@ -11,7 +11,7 @@
   package:
     name: "{{ item }}"
     state: installed
-  with_items: MariaDB-server , MariaDB-client , MySQL-python
+  with_items: mariadb-server 
  
   
 
@@ -40,27 +40,3 @@
   with_items:
     - "{{ ansible_hostname }}"
     
-
-
-- name: setup semaphore database
-  mysql_db:
-    name: "{{ semaphore_mysql_db }}"
-    state: present
-    login_user: root
-    login_password: "{{ mysql_root_pass }}"
-    login_host: "{{ semaphore_mysql_host }}"
-    login_port: "{{ semaphore_mysql_port }}"
-  
-
-- name: setup semaphore database user
-  mysql_user:
-    name: "{{ semaphore_mysql_user }}"
-    host: "{{ semaphore_mysql_allowed_host }}"
-    password: "{{ semaphore_mysql_password }}"
-    login_user: root
-    login_password: "{{ mysql_root_pass }}"
-    login_host: "{{ semaphore_mysql_host }}"
-    login_port: "{{ semaphore_mysql_port }}"
-    priv: "{{ semaphore_mysql_db }}.*:ALL,GRANT"
-  when: semaphore_mysql_create_db
- 

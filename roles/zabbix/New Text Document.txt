@@ -1,1 +1,1 @@
-ansible-playbook playbook.yml --extra-vars " zabbix_mysql_db =’zabbix’ mysql_root_pass =’Leon21013@’ dbuser1_name='zabbix' dbuser1_pass='Leon21013@'     
+ansible-playbook playbook.yml --extra-vars " zabbix_mysql_db =’zabbix’ mysql_root_pass=’Leon21013@’ dbuser1_name='zabbix' dbuser1_pass='Leon21013@' "     
