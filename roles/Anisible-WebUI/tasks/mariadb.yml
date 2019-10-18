@@ -12,6 +12,7 @@
     name: "{{ item }}"
     state: installed
   with_items: MariaDB-server , MariaDB-client , MySQL-python
+  ignore_errors: yes
  
   
 

@@ -8,5 +8,8 @@
   include_tasks: mariadb.yml
 
 - name: zabbix 
-  include_tasks: zabbix.yml
+  include_tasks: zabbix.yml 
+
+#- name: zabbix 
+  #include_tasks: adddb1.yml
  

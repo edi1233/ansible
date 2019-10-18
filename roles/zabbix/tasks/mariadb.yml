@@ -45,6 +45,8 @@
 - name: setup zabbix database
   mysql_db:
     name: "{{ zabbix_mysql_db }}"
+    encoding: "{{ zabbix_server_dbencoding }}"
+    collation: "{{ zabbix_server_dbcollation }}"
     state: present
     login_user: root
     login_password: "{{ mysql_root_pass }}"
@@ -55,12 +57,12 @@
 - name: Create user and grant privileges for database
   mysql_user:
     name: "{{ dbuser1_name }}"
-    host: "{{ ansible_hostname }}"
+    host: localhost
     password: "{{ dbuser1_pass }}"
-    priv: '{{ dbuser1_name  }}.*:ALL'
+    priv: "{{ dbuser1_name  }}.*:ALL"
     state: present
     login_host: localhost
     login_port: 3306
     login_user: root
-    login_password: "{{ mysql_root_pass }}"
- 
+    login_password: "{{ mysql_root_pass }}"   
+

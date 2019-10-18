@@ -61,9 +61,12 @@ Ansible wordpress build:
 
 
 
+ ansible-playbook playbook.yml --extra-vars " mysql_root_pass=1234 zabbix_mysql_db=test dbuser1_name=test1  dbuser1_pass=1234  "
 
 
 
+
+grant all privileges on zabbix.* to zabbix@localhost identified by 'Leon21013@';
 
 
 

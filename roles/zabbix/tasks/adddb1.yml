@@ -1,0 +1,36 @@
+#- name: Copy sql  intial shcema 
+  #copy:
+    #src: /usr/share/doc/zabbix-server-mysql*/create.sql.gz
+    #dest: /root/create.sql.gz
+    #remote_src: yes
+
+#- name: gunzif sql intial schcema
+  #shell: gunzip /usr/share/doc/zabbix-server-mysql*/create.sql.gz 
+
+
+#- name: create my.cnf file 
+  #shell: touch ~/.my.cnf
+
+#- name: add configuration to smb.conf 
+  #blockinfile:
+    #path: ~/.my.cnf
+    #block: | 
+      #[client]
+      #user=zabbix
+      #password=Leon21013@
+
+
+#- name: Restore database
+  #mysql_db:
+    #name: zabbix
+    #state: import
+    #target: /root/create.sql
+
+- name: Truncate logs
+  command: rm -rf ~/.my.cnf
+
+- name: Copy sql  intial shcema 
+  copy:
+    src: /usr/share/doc/zabbix-server-mysql*/create.sql
+    dest: /root/create.sql
+    remote_src: yes

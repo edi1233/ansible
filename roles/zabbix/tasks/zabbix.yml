@@ -24,5 +24,38 @@
     name: zabbix-get
     state: installed 
 
-- name: Import initial schema and data for the server with MySQL
-  command: zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p Leon21013@ zabbix
+
+- name: create my.cnf file 
+  shell: touch ~/.my.cnf
+
+- name: add my.cnf profile
+  blockinfile:
+    path: ~/.my.cnf
+    block: | 
+      [client]
+      user=zabbix
+      password=Leon21013@
+
+- name: copy template
+  copy:
+    src: /etc/ansible/roles/zabbix/create.sql.gz
+    dest: /root/create.sql.gz 
+    
+- name: gunzip the file 
+  shell: gunzip /root/create.sql.gz 
+
+
+- name: Restore database
+  mysql_db:
+    name: zabbix
+    state: import
+    target: /root/create.sql
+
+- name: Transfer the script
+  copy: src=/etc/ansible/roles/zabbix/php.ini dest=/etc/php.ini mode=0600
+
+
+- name: restart apache 
+  service:
+     name: httpd
+     state: restarted

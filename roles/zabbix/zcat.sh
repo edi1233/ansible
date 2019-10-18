@@ -1,0 +1,1 @@
+mysql -u zabbix zabbix << /usr/share/doc/zabbix-server-mysql*/create.sql

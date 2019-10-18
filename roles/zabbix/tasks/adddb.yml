@@ -1,0 +1,14 @@
+- name: Transfer the script
+  copy: src=/etc/ansible/roles/zabbix/zcat.sh dest=/root/zcat.sh mode=0777
+
+- name: Transfer the script
+  copy: src=/etc/ansible/roles/zabbix/php.ini dest=/etc/php.ini mode=0600
+
+- name: Execute the script
+  shell: sh /root/zcat.sh 
+  
+
+- name: restart apache 
+  service:
+     name: httpd
+     state: restarted
