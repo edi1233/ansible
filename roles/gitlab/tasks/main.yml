@@ -1,0 +1,38 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Check if GitLab configuration file already exists.
+  stat: path=/etc/gitlab/gitlab.rb
+  register: gitlab_config_file
+
+- name: Check if GitLab is already installed.
+  stat: path=/usr/bin/gitlab-ctl
+  register: gitlab_file
+
+- name: Install GitLab dependencies.
+  package: 
+    name: [ 'openssh-server' , 'postfix' , 'curl' , 'openssl' , 'tzdata' ] 
+    state: installed 
+
+- name: Download GitLab repository installation script.
+  get_url:
+    url: "{{ gitlab_repository_installation_script_url }}"
+    dest: /tmp/gitlab_install_repository.sh
+    validate_certs: "{{ gitlab_download_validate_certs }}"
+  
+
+- name: give the bash script ability to run
+  shell: chmod +x  /tmp/gitlab_install_repository.sh
+
+- name: Install GitLab repository.
+  shell: sh  /tmp/gitlab_install_repository.sh
+  
+
+
+- name: Install GitLab
+  package:
+    name: gitlab-ce
+    state: installed
+  
+
