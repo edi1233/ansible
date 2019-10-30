@@ -1,3 +1,7 @@
+  
+  - name: updte alll repos 
+    command: yum -y update
+  
   - name: install openjdk version 8 
     package:
       name: java-1.8.0-openjdk-devel
