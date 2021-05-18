@@ -1,0 +1,48 @@
+  - name: add first repos for ad connect 
+    ansible.builtin.apt_repository:
+      repo: deb http://us.archive.ubuntu.com/ubuntu/ bionic universe
+      state: present
+    become: true 
+
+
+
+  #- name: Set FQDN as a hostname 
+    #ansible.builtin.hostname:
+      #name: "{{hostname}}.corp.zim.com" 
+    #become: true
+
+  - name: Run apt upgrade
+    apt:
+      upgrade: "yes"
+      update_cache: yes
+      cache_valid_time: 432000
+
+
+  - name: Install requierd packages for ad connect 
+    apt:
+      name: python3-pip
+      state: latest
+    become: true
+
+  - name: install pexpect
+    pip:
+      name: pexpect
+    become: yes
+
+
+  - name: Install requierd packages for ad connect 
+    apt:
+      name: "{{ item }}"
+      state: latest
+    become: true
+    with_items: 
+      - realmd 
+      - libnss-sss
+      - libpam-sss
+      - sssd
+      - sssd-tools
+      - adcli
+      - samba-common-bin
+      - oddjob
+      - oddjob-mkhomedir
+      - packagekit  

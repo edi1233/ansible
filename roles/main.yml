@@ -1,0 +1,25 @@
+
+  - name: install ad requierments on ubuntu
+    include_tasks: ubuntu.yml
+    when: ansible_distribution == 'Ubuntu'
+
+  
+  - name: install ad requierments on rhel
+    include_tasks: rhel.yml
+    when: ansible_distribution == 'RedHat' or  ansible_distribution == 'CentOS'
+
+
+    
+  - name: join servers to ad 
+    become: true
+    ansible.builtin.expect: 
+      command: "realm join -U edia edis-lab.local"
+      responses:
+        (?i)password: "Leon21013@"
+    
+  
+
+  
+
+
+  

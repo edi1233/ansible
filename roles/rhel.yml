@@ -1,0 +1,41 @@
+  - name: install epel release
+    yum:
+      name: epel-release
+      state: present
+    become: yes
+  
+
+  - name: install python pip
+    yum:
+      name: python-pip
+      state: present
+    become: yes
+
+  - name: install setuptools
+    pip:
+      name: setuptools
+    become: yes
+  
+  
+  - name: install pexpect
+    pip:
+      name: pexpect
+    become: yes
+
+
+  - name: Install requierd packages for ad connect 
+    yum:
+      name: "{{ item }}"
+      state: present
+    become: true
+    with_items: 
+      - sssd   
+      - realmd
+      - oddjob
+      - oddjob-mkhomedir
+      - adcli
+      - samba-common
+      - samba-common-tools
+      - krb5-workstation
+      - openldap-clients
+      - policycoreutils-python
