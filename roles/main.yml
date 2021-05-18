@@ -15,7 +15,7 @@
     ansible.builtin.expect: 
       command: "realm join -U edia edis-lab.local"
       responses:
-        (?i)password: "Leon21013@"
+        (?i)password: "pass"
     
   
 
