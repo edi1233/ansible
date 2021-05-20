@@ -1,0 +1,75 @@
+  - name: Create web folder 
+    ansible.builtin.file:
+      path: /var/www/web
+      state: directory
+      mode: '0755'
+      owner: root
+      group: root 
+    become: true
+
+
+  - name: Touch index.html
+    ansible.builtin.file:
+      path: /var/www/web/index.html
+      state: touch
+      mode: '0755'
+      owner: root
+      group: root
+    become: true
+
+
+
+  - name: add content to index.html
+    become: true
+    blockinfile:
+      path: /var/www/web/index.html
+      block: |
+             <html>
+                <head>
+                  <title>Welcome to Your_domain!</title>
+                </head>
+                 <body>
+                 <h1>Success!  The your_domain virtual host is working!</h1>
+                 </body>
+                </html>
+
+
+
+  
+  - name: Touch Web conf file 
+    ansible.builtin.file:
+      path: /etc/apache2/sites-available/web.conf
+      state: touch
+      mode: '0664'
+      owner: root
+      group: root
+    become: true
+
+
+  - name: add content to conf file
+    become: true
+    blockinfile:
+      path: /etc/apache2/sites-available/web.conf
+      block: |
+              <VirtualHost *:80>
+                ServerAdmin webmaster@localhost
+                ServerName hfavlubtemp
+                ServerAlias hfavlubtemp
+                DocumentRoot /var/www/web
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+              </VirtualHost>
+    
+
+  - name: write the configuration
+    shell: a2ensite web.conf
+    args:
+      chdir: /etc/apache2/sites-available/
+    become: true
+
+
+  - name: a2dissite 000-default.conf
+    shell: a2ensite 000-default.conf
+    args:
+      chdir: /etc/apache2/sites-available/
+    become: true

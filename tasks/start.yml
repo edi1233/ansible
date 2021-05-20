@@ -1,0 +1,11 @@
+  - name: reload apache
+    shell: systemctl reload apache2
+    become: true
+  
+
+  - name: enshure apache is running 
+    ansible.builtin.service:
+      name: apache2
+      state: restarted
+    become: true
+

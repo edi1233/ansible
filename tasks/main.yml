@@ -1,0 +1,10 @@
+
+
+  - name: install apache2 on ubuntu
+    include_tasks: install.yml
+
+  - name: configure web server on ubuntu 
+    include_tasks: web.yml
+
+  - name: start web server on ubuntu 
+    include_tasks: start.yml
