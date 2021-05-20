@@ -1,0 +1,94 @@
+
+  - name: Insert a line at the end of HFAVLADM14Q101
+    blockinfile:
+     path: /etc/samba/smb.conf
+     block: |
+            [osb_logs]
+            path = /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs
+            read only = yes
+            guest ok = yes
+            writable = yes
+            browsable = yes
+            valid users = @Linux.Admins, @IQ-Deploy, @Developers
+
+            [soa_logs]
+            path = /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs
+            read only = yes
+            guest ok = yes
+            writable = yes
+            browsable = yes
+            valid users = @Linux.Admins, @IQ-Deploy, @Developers
+    become: true
+    when: inventory_hostname == "HFAVLADM14Q101" 
+
+
+   
+  - name: Insert a line at the end of HFAVLOSB14Q102
+    blockinfile:
+     path: /etc/samba/smb.conf
+     block: |
+            [osb_logs]
+            path = /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs
+            read only = yes
+            guest ok = yes
+            writable = yes
+            browsable = yes
+            valid users = @Linux.Admins, @IQ-Deploy, @Developers
+    become: true
+    when: inventory_hostname == "HFAVLOSB14Q102"  
+
+
+  - name: Insert a line at the end of HFAVLSOA14Q101
+    blockinfile:
+     path: /etc/samba/smb.conf
+     block: |
+            [soa_logs]
+            path = /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs
+            read only = yes
+            guest ok = yes
+            writable = yes
+            browsable = yes
+            valid users = @Linux.Admins, @IQ-Deploy, @Developers
+    become: true
+    when: inventory_hostname == "HFAVLSOA14Q101"
+
+
+  - name: Insert a line at the end of HFAVLSOA14Q102
+    blockinfile:
+     path: /etc/samba/smb.conf
+     block: |
+            [soa_logs]
+            path = /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs
+            read only = yes
+            guest ok = yes
+            writable = yes
+            browsable = yes
+            valid users = @Linux.Admins, @IQ-Deploy, @Developers
+    become: true
+    when: inventory_hostname == "HFAVLSOA14Q102"
+
+  - name: Insert a line at the end of hfavlosb14q101
+    blockinfile:
+     path: /etc/samba/smb.conf
+     block: |
+            [osb_logs]
+            path = /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs
+            read only = yes
+            guest ok = yes
+            writable = yes
+            browsable = yes
+            valid users = @Linux.Admins, @IQ-Deploy, @Developers
+    become: true
+    when: inventory_hostname == "hfavlosb14q101"
+ 
+  
+
+   
+
+
+
+
+
+
+
+  

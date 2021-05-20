@@ -1,0 +1,7 @@
+  - name: add repos for microsoft defender
+    ansible.builtin.command: yum-config-manager --add-repo=https://packages.microsoft.com/config/centos/7/prod.repo 
+    become: true 
+
+  - name: add microsoft gpg key
+    ansible.builtin.command: rpm --import http://packages.microsoft.com/keys/microsoft.asc
+    become: true 

@@ -1,0 +1,7 @@
+
+  - name: create copy of old hosts file 
+    ansible.builtin.copy:
+      src: /etc/hosts 
+      dest: /etc/hosts.old 
+      remote_src: yes
+    become: true

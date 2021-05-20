@@ -1,0 +1,17 @@
+
+
+  - name: test dns server 1 
+    command: nslookup 10.54.2.10
+    become: true 
+    register: record1
+
+  - debug: 
+      msg: "{{ record1.stdout_lines[0] }}"
+
+
+  - name: restart sssd when dns server not responding  
+    ansible.builtin.service:
+      name: sssd.service
+      state: restarted
+    become: true
+    when: "not record1.stdout_lines[0] == '10.2.54.10.in-addr.arpa name = GERCORPD01.corp.zim.com.'"

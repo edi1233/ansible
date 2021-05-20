@@ -1,0 +1,20 @@
+
+  - name: Gather the package facts
+    ansible.builtin.package_facts:
+      manager: auto
+
+  - name: Ensure Samba-related packages are installed.
+    package: "name={{ item }} state=installed"
+    with_items:
+      - xorg-x11-server-Xorg
+      - xorg-x11-xauth
+      - xorg-x11-apps
+    become: true
+
+
+  - name: Restart service sshd
+    ansible.builtin.service:
+      name: sshd 
+      state: restarted
+    become: true  
+

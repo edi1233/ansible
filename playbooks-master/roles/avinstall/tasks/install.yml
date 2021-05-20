@@ -1,0 +1,21 @@
+
+
+  - name: Install microsoft defender
+    yum:
+      name: libatomic
+      state: latest
+    become: true 
+
+
+  - name: Install microsoft defender
+    yum:
+      name: mdatp
+      state: latest
+    become: true 
+
+  - name: enshure mdatp is running
+    ansible.builtin.service:
+      name: mdatp.service
+      state: started
+    become: true
+     

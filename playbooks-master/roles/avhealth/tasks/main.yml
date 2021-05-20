@@ -1,0 +1,38 @@
+
+
+  - name: test av health status
+    command: mdatp health
+    register: health
+  
+
+  - debug: 
+      msg: "{{ health.stdout_lines }}"  
+    register: status 
+
+  - debug: 
+      msg: "{{ status.msg[0] }}"
+    register: healthy
+
+
+  - debug: 
+      msg: "{{ status.msg[17] }}"
+    register: update
+
+
+  - local_action:
+      module: ansible.builtin.lineinfile
+      path: /tmp/mdatp.log
+      line: '"{{ inventory_hostname}} " "{{ item }}"'   
+      create: yes  
+    loop: 
+      - "{{ status.msg[0] }}"
+      - "{{ status.msg[17] }}"
+
+  - name: restart servcie when is not healthy 
+    ansible.builtin.service:
+      name: mdatp.service
+      state: restarted
+    become: true
+    when: "not status.msg[0] == 'healthy                                     : true'"
+  
+   

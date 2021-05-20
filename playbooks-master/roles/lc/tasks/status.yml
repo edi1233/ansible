@@ -1,0 +1,6 @@
+  - name: Check if service is running 
+    command: pgrep rphcp
+    register: already_running
+    failed_when: already_running.rc == 500
+
+  

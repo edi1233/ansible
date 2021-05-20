@@ -1,0 +1,106 @@
+  - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+    ansible.builtin.shell: "{{ item }}"
+    loop:
+      - 'getfacl /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -m g:"IQ-Deploy":rx /u01/ /u01/oracle /u01/oracle/config /u01/oracle/config/osb/ /u01/oracle/config/osb/domains/ /u01/oracle/config/osb/domains/osb_domain /u01/oracle/config/osb/domains/osb_domain/servers/ /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -m g:"Developers":rx /u01/ /u01/oracle /u01/oracle/config /u01/oracle/config/osb/ /u01/oracle/config/osb/domains/ /u01/oracle/config/osb/domains/osb_domain /u01/oracle/config/osb/domains/osb_domain/servers/ /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -m g:"Linux.Admins":rx /u01/ /u01/oracle /u01/oracle/config /u01/oracle/config/osb/ /u01/oracle/config/osb/domains/ /u01/oracle/config/osb/domains/osb_domain /u01/oracle/config/osb/domains/osb_domain/servers/ /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -R -m g:"IQ-Deploy":rX /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs' 
+      - 'setfacl -R -m g:"Developers":rX /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -R -m g:"Linux.Admins":rX /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -d -m g:"IQ-Deploy":rX /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -d -m g:"Developers":rX /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'setfacl -d -m g:"Linux.Admins":rX /u01/oracle/config/osb/domains/osb_domain/servers/AdminServer/logs'
+      - 'getfacl /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -m g:"IQ-Deploy":rx /u01/ /u01/oracle /u01/oracle/config /u01/oracle/config/soa/ /u01/oracle/config/soa/domains/ /u01/oracle/config/soa/domains/soa_domain /u01/oracle/config/soa/domains/soa_domain/servers/ /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -m g:"Developers":rx /u01/ /u01/oracle /u01/oracle/config /u01/oracle/config/soa/ /u01/oracle/config/soa/domains/ /u01/oracle/config/soa/domains/soa_domain /u01/oracle/config/soa/domains/soa_domain/servers/ /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -m g:"Linux.Admins":rx /u01/ /u01/oracle /u01/oracle/config /u01/oracle/config/soa/ /u01/oracle/config/soa/domains/ /u01/oracle/config/soa/domains/soa_domain /u01/oracle/config/soa/domains/soa_domain/servers/ /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -R -m g:"IQ-Deploy":rX /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs' 
+      - 'setfacl -R -m g:"Developers":rX /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -R -m g:"Linux.Admins":rX /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -d -m g:"IQ-Deploy":rX /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -d -m g:"Developers":rX /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'setfacl -d -m g:"Linux.Admins":rX /u01/oracle/config/soa/domains/soa_domain/servers/AdminServer/logs'
+      - 'semanage fcontext -a -t samba_share_t "/u01(/.*)?"'
+      - 'restorecon -R -v /u01/'
+    become: true
+    when: inventory_hostname == "HFAVLADM14Q101"
+
+  - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+    ansible.builtin.shell: "{{ item }}"
+    loop:
+      - 'getfacl /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -m g:"IQ-Deploy":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/osb/ /u02/oracle/config/osb/domains/ /u02/oracle/config/osb/domains/osb_domain /u02/oracle/config/osb/domains/osb_domain/servers/ /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2 /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -m g:"Developers":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/osb/ /u02/oracle/config/osb/domains/ /u02/oracle/config/osb/domains/osb_domain /u02/oracle/config/osb/domains/osb_domain/servers/ /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2 /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -m g:"Linux.Admins":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/osb/ /u02/oracle/config/osb/domains/ /u02/oracle/config/osb/domains/osb_domain /u02/oracle/config/osb/domains/osb_domain/servers/ /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2 /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -R -m g:"IQ-Deploy":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs' 
+      - 'setfacl -R -m g:"Developers":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -R -m g:"Linux.Admins":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -d -m g:"IQ-Deploy":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -d -m g:"Developers":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'setfacl -d -m g:"Linux.Admins":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server2/logs'
+      - 'semanage fcontext -a -t samba_share_t "/u02(/.*)?"'
+      - 'restorecon -R -v /u02/'
+    become: true
+    when: inventory_hostname == "HFAVLOSB14Q102"
+
+
+  
+  - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+    ansible.builtin.shell: "{{ item }}"
+    loop:
+      - 'getfacl /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'setfacl -m g:"IQ-Deploy":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/soa/ /u02/oracle/config/soa/domains/ /u02/oracle/config/soa/domains/soa_domain /u02/oracle/config/soa/domains/soa_domain/servers/ /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1 /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'setfacl -m g:"Linux.Admins":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/soa/ /u02/oracle/config/soa/domains/ /u02/oracle/config/soa/domains/soa_domain /u02/oracle/config/soa/domains/soa_domain/servers/ /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1 /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'setfacl -m g:"Developers":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/soa/ /u02/oracle/config/soa/domains/ /u02/oracle/config/soa/domains/soa_domain /u02/oracle/config/soa/domains/soa_domain/servers/ /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1 /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'            
+      - 'setfacl -R -m g:"IQ-Deploy":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs' 
+      - 'setfacl -R -m g:"Developers":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'setfacl -R -m g:"Linux.Admins":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'setfacl -d -m g:"IQ-Deploy":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'setfacl -d -m g:"Developers":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'setfacl -d -m g:"Linux.Admins":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server1/logs'
+      - 'semanage fcontext -a -t samba_share_t "/u02(/.*)?"'
+      - 'restorecon -R -v /u02/'
+    become: true
+    when: inventory_hostname == "HFAVLSOA14Q101"
+
+  
+  - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+    ansible.builtin.shell: "{{ item }}"
+    loop:
+      - 'getfacl /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'setfacl -m g:"IQ-Deploy":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/soa/ /u02/oracle/config/soa/domains/ /u02/oracle/config/soa/domains/soa_domain /u02/oracle/config/soa/domains/soa_domain/servers/ /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2 /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'setfacl -m g:"Linux.Admins":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/soa/ /u02/oracle/config/soa/domains/ /u02/oracle/config/soa/domains/soa_domain /u02/oracle/config/soa/domains/soa_domain/servers/ /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2 /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'setfacl -m g:"Developers":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/soa/ /u02/oracle/config/soa/domains/ /u02/oracle/config/soa/domains/soa_domain /u02/oracle/config/soa/domains/soa_domain/servers/ /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2 /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'            
+      - 'setfacl -R -m g:"IQ-Deploy":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs' 
+      - 'setfacl -R -m g:"Developers":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'setfacl -R -m g:"Linux.Admins":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'setfacl -d -m g:"IQ-Deploy":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'setfacl -d -m g:"Developers":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'setfacl -d -m g:"Linux.Admins":rX /u02/oracle/config/soa/domains/soa_domain/servers/soa_server2/logs'
+      - 'semanage fcontext -a -t samba_share_t "/u02(/.*)?"'
+      - 'restorecon -R -v /u02/'
+    become: true
+    when: inventory_hostname == "HFAVLSOA14Q102"
+
+
+  
+  - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+    ansible.builtin.shell: "{{ item }}"
+    loop:
+      - 'getfacl /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -m g:"IQ-Deploy":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/osb/ /u02/oracle/config/osb/domains/ /u02/oracle/config/osb/domains/osb_domain /u02/oracle/config/osb/domains/osb_domain/servers/ /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1 /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -m g:"Developers":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/osb/ /u02/oracle/config/osb/domains/ /u02/oracle/config/osb/domains/osb_domain /u02/oracle/config/osb/domains/osb_domain/servers/ /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1 /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -m g:"Linux.Admins":rx /u02/ /u02/oracle /u02/oracle/config /u02/oracle/config/osb/ /u02/oracle/config/osb/domains/ /u02/oracle/config/osb/domains/osb_domain /u02/oracle/config/osb/domains/osb_domain/servers/ /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1 /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -R -m g:"IQ-Deploy":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -R -m g:"Developers":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -R -m g:"Linux.Admins":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -d -m g:"IQ-Deploy":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -d -m g:"Developers":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'setfacl -d -m g:"Linux.Admins":rX /u02/oracle/config/osb/domains/osb_domain/servers/osb_server1/logs'
+      - 'semanage fcontext -a -t samba_share_t "/u02(/.*)?"'
+      - 'restorecon -R -v /u02/'
+    become: true
+    when: inventory_hostname == "hfavlosb14q101"
+
+

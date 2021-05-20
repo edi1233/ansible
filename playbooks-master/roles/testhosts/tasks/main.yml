@@ -1,0 +1,34 @@
+
+    
+
+  - name: This command will change the working directory to somedir/
+    ansible.builtin.shell:
+      cmd: ls -l | grep ifcfg-.*
+      chdir: /etc/sysconfig/network-scripts/
+    become: true
+    register: file_check
+
+
+
+  - debug:
+      msg: "{{ file_check.stdout_lines }}" 
+
+   
+  #- name: save vars 
+    #local_action: ansible.builtin.shell echo " {{ inventory_hostname }} {{ file_check.stdout_lines }} " > /tmp/nicinterface.txt
+
+  #- name: save vars 
+    #local_action: ansible.builtin.lineinfile line "{{ inventory_hostname }} {{ file_check.stdout_lines }}" state=present path=/tmp/nicinterface.txt
+
+  - name: save vars
+    local_action: 
+      module: ansible.builtin.lineinfile
+      line:  "{{ inventory_hostname }} {{ file_check.stdout_lines }}" 
+      path: /tmp/nicinterface.txt
+      state: present 
+
+  - name: save vars
+    local_action:
+      module: ansible.builtin.shell
+      cmd: awk '{print $1,$10}' /tmp/nicinterface.txt > /tmp/net.txt  
+     

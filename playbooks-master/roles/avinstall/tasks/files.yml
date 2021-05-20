@@ -1,0 +1,26 @@
+  - name: Copy mdatp_onboard.json
+    copy:
+      src: /home/alexcinicher.edi/ansible/roles/avinstall/files/mdatp_onboard.json
+      dest: /etc/opt/microsoft/mdatp/mdatp_onboard.json
+      mode: 0600
+      owner: root
+      group: root
+    become: true 
+    
+
+  - name: Register mdatp_onboard.json
+    stat:
+      path: /etc/opt/microsoft/mdatp/mdatp_onboard.json
+    register: mdatp_onboard
+
+
+
+  - name: add connf file 
+    become: true 
+    copy:
+      src: /home/alexcinicher.edi/ansible/roles/avinstall/files/hcp_linux_x64_release_4.23.0
+      dest: /etc/opt/microsoft/mdatp
+      owner: root
+      group: root        
+      mode: 0600
+

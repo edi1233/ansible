@@ -1,0 +1,25 @@
+
+
+  - name: create folder for rpms and dependencies
+    become: true
+    ansible.builtin.file:
+      path: "{{ folder_name }}"
+      recurse: true
+      state: directory
+      mode: "{{ folder_mode }}"
+      owner: "{{ folder_owner }}"
+      group: "{{ folder_group }}"
+
+
+  - name: donwload rpm and his dependecies 
+    command: "repotrack {{ rpm }} --download_path={{ folder_name }} --arch=x86_64"
+    become: true    
+
+
+  #- name: youmdownloader options 
+    #command: "yumdownloader --destdir={{ folder_name }} --resolve {{ rpm }}" 
+    #become: true
+
+  #- name: use both 
+    #command: "repoquery --resolve --recursive {{ rpm }} | xargs yumdownloader --destdir={{ folder_name }}"
+    #become: true

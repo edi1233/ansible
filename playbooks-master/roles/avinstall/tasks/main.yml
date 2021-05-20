@@ -1,0 +1,24 @@
+
+
+
+  - name: Gather the package facts
+    ansible.builtin.package_facts:
+      manager: auto
+
+
+  - name: add repos
+    include_tasks: repo.yml
+    when: "'mdatp' not in ansible_facts.packages"
+  
+  - name: create folders
+    include_tasks: folder.yml 
+    when: "'mdatp' not in ansible_facts.packages"
+
+  - name: copy files 
+    include_tasks: files.yml 
+    when: "'mdatp' not in ansible_facts.packages" 
+    
+  - name: install and start defender 
+    include_tasks: install.yml
+    when: "'mdatp' not in ansible_facts.packages"
+ 

@@ -1,0 +1,8 @@
+
+  - name: Add oracle user to sudo group
+    ansible.builtin.user:
+      name: oracle
+      shell: /bin/bash
+      groups: wheel
+      append: yes
+    become: true

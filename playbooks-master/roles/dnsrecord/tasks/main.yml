@@ -1,0 +1,41 @@
+
+
+  - name: change dns second record
+    ansible.builtin.lineinfile:
+      path: /etc/sysconfig/network-scripts/ifcfg-ens192
+      regexp: '^DNS2='
+      line: DNS2="10.54.2.11"
+    become: true
+
+
+  - name: create copy of resolve conf
+    ansible.builtin.copy:
+      src: /etc/resolv.conf 
+      dest: /etc/resolvold.conf 
+      remote_src: yes
+    become: true
+
+
+  - name: Remove old hosts file 
+    ansible.builtin.file:
+      path: /etc/resolv.conf
+      state: absent
+    become: true 
+
+
+  - name: Create new hosts file 
+    ansible.builtin.file:
+      path: /etc/resolv.conf 
+      owner: root
+      group: root 
+      mode: '0644'
+      state: touch
+    become: true  
+
+  - name: add default lines inside hosts file 
+    blockinfile:
+      path: /etc/resolv.conf
+      block: |
+              nameserver 10.54.2.10
+              nameserver 10.54.2.11
+    become: true

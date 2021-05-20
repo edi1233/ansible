@@ -1,0 +1,23 @@
+
+  - name: Read servers from CSV file and return a dictionary
+    community.general.read_csv:
+      path: /home/alexcinicher.edi/ansible/roles/ipchange/tasks/ips.csv
+    register: ip
+    delegate_to: localhost
+
+  - name: be shure that gateway set 
+    command: route add default gw "{{ server.Gateway }}" ens192
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true   
+    when: inventory_hostname == "{{ server.VMName }}" 		
+
+
+  - name: be shure that netmask set
+    command: "ifconfig ens192 {{ server.IPAddress }} netmask {{ server.SubnetMask }}"
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true   
+    when: inventory_hostname == "{{ server.VMName }}"

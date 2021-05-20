@@ -1,0 +1,24 @@
+  - name: Gathering service facts
+    service_facts:
+    register: services_state
+  - debug: var=services_state.ansible_facts.services["smb.service"].state
+  - debug: var=services_state.ansible_facts.services["nmb.service"].state
+
+  - name: enshure smb is running 
+    ansible.builtin.service:
+      name: smb.service
+      state: started
+    become: true
+    when: ansible_facts.services["mdatp.service"].state  == "stopped" or 
+          ansible_facts.services["mdatp.service"].state  == "inactive" or
+          ansible_facts.services["mdatp.service"].state  == "unknown"  
+
+
+  - name: enshure nmb is running 
+    ansible.builtin.service:
+      name: nmb.service
+      state: started
+    become: true
+    when: ansible_facts.services["mdatp.service"].state  == "stopped" or 
+          ansible_facts.services["mdatp.service"].state  == "inactive" or
+          ansible_facts.services["mdatp.service"].state  == "unknown"

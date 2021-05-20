@@ -1,0 +1,36 @@
+
+
+  - name: scan virtual scsi devices  
+    command: ls /sys/class/scsi_device/ 
+    become: true 
+    register: device  
+
+  - name: rescan disks
+    become: true 
+    command: echo 1 > /sys/class/scsi_device/0\:0\:0\:0/device/rescan
+
+
+
+  - name: resize volume groupe to max 
+    become: true
+    community.general.lvg:
+      vg: "{{ vg_name }}"
+      pvs: "{{ disk }}"
+      pvresize: yes
+      #state: "{{ vg_state }}"
+
+
+
+  - name: Create a logical volume the size of all remaining space in the volume group
+    become: true
+    community.general.lvol:
+      vg: "{{ vg_name }}"
+      lv: "{{ lv_name }}"
+      size: +100%FREE
+      state: "{{ lv_state }}"
+      resizefs: yes 
+     
+
+  - name: gorw file system 
+    command: "xfs_growfs /dev/{{ vg_name }}/{{ lv_name }}"
+    become: true

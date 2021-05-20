@@ -1,0 +1,6 @@
+
+  - name: install smem utility 
+    yum: 
+      name: smem
+      state: latest
+    become: true

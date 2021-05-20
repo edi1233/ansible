@@ -1,0 +1,10 @@
+  - name: Delete installation script and files
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: absent
+    loop: 
+       - /tmp/lc_linux_installer.sh
+       - /tmp/hcp_linux_x64_release_4.23.0
+    become: true 
+     
+ 

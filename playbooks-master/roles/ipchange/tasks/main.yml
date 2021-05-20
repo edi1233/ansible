@@ -1,0 +1,150 @@
+
+
+
+
+  - name: create copy of old nic configurations 
+    ansible.builtin.copy:
+      src: /etc/sysconfig/network-scripts/ifcfg-eth0 
+      dest: /tmp/ifcfg-ens192.old
+      remote_src: yes
+    become: true
+
+
+
+  - name: Read servers from CSV file and return a dictionary
+    community.general.read_csv:
+      path: /home/alexcinicher.edi/ansible/roles/ipchange/tasks/ips.csv
+    register: ip
+    delegate_to: localhost
+
+
+  - name: change ip adress from csv
+    ansible.builtin.lineinfile:
+      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+      regexp: '^IPADDR='
+      line: IPADDR="{{ server.IPAddress }}"
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true   
+    when: inventory_hostname == "{{ server.VMName }}"  
+
+
+  - name: change default gateway adress from csv
+    ansible.builtin.lineinfile:
+      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+      regexp: '^GATEWAY='
+      line: GATEWAY="{{ server.Gateway }}"
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true   
+    when: inventory_hostname == "{{ server.VMName }}"  
+
+   
+
+
+  - name: change dns server  adress from csv
+    ansible.builtin.lineinfile:
+      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+      regexp: '^DNS1='
+      line: DNS1="{{ server.DNSServer }}"
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true   
+    when: inventory_hostname == "{{ server.VMName }}" 
+
+
+  - name: change subnetmask server  adress from csv
+    ansible.builtin.lineinfile:
+      path: /etc/sysconfig/network-scripts/ifcfg-eth0
+      regexp: '^NETMASK='
+      line: NETMASK="{{ server.SubnetMask }}"
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true   
+    when: inventory_hostname == "{{ server.VMName }}" 
+
+ 
+  #- name: Create script file 
+    #ansible.builtin.file:
+      #path: /tmp/net.sh
+      #owner: root
+      #group: root
+      #mode: '0777'
+      #state: touch
+    #become: true  
+
+
+  #- name: add lines
+    #lineinfile: 
+      #dest: /tmp/net.sh
+      #state: present
+      #line: '#!/bin/sh' 
+    #loop: "{{ ip.list }}"
+    #loop_control:
+      #loop_var: server
+    #become: true
+    #when: inventory_hostname == "{{ server.VMName }}"  
+
+
+
+  - name: Restart network service for interface eth0
+    ansible.builtin.service:
+      name: rc-local
+      enabled: yes
+   
+
+  - name: add lines
+    lineinfile: 
+      dest: /etc/rc.d/rc.local
+      state: present
+      line: 'route add default gw "{{ server.Gateway }}" eth0' 
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true
+    when: inventory_hostname == "{{ server.VMName }}"  
+
+
+  - name: add lines
+    lineinfile: 
+      dest: /etc/rc.d/rc.local
+      state: present
+      line: 'ifconfig eth0 "{{ server.IPAddress }}" netmask "{{ server.SubnetMask }}"' 
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true
+    when: inventory_hostname == "{{ server.VMName }}"
+
+
+  #- name: add lines
+    #lineinfile: 
+      #dest: /tmp/net.sh
+      #state: present
+      #line: 'systemctl restart netowrk' 
+    #loop: "{{ ip.list }}"
+    #loop_control:
+      #loop_var: server
+    #become: true
+    #when: inventory_hostname == "{{ server.VMName }}"
+
+    
+
+  #- name: run remote script
+    #ansible.builtin.shell: sh /tmp/net.sh
+    #become: true
+
+
+  - name: Unconditionally shut down the machine with all defaults
+    community.general.shutdown:
+    loop: "{{ ip.list }}"
+    loop_control:
+      loop_var: server
+    become: true
+    when: inventory_hostname == "{{ server.VMName }}"
+
+  

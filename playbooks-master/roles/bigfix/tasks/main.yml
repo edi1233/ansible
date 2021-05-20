@@ -1,0 +1,15 @@
+
+  - name: Gathering service facts filter bigfix client
+    service_facts:
+    register: services_state
+  - debug: var=services_state.ansible_facts.services["besclient.service"].state
+
+
+  - name: enshure open vm tools  is running
+    ansible.builtin.service:
+      name: besclient.service
+      state: restarted
+    become: true
+    when: ansible_facts.services["besclient.service"].state  == "stopped" or 
+          ansible_facts.services["besclient.service"].state  == "unknown"
+

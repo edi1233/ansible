@@ -1,0 +1,59 @@
+  
+
+  - name: umount and delete lvs from fstab   
+    mount:
+      path: "{{ folder_path }}"
+      src: "/dev/{{ vg_name }}/{{ lv_name }}"
+      fstype: xfs
+      state: absent 
+      #force: yes
+    become: true
+
+
+ 
+  - name: delete locgical volume 
+    become: ture
+    become_user: syshfa
+    community.general.lvol:
+      vg: "{{ vg_name }}"
+      lv: "{{ lv_name }}"
+      size: 100%FREE
+      state: absent
+      force: yes
+    register: lvs
+
+
+
+
+  - name: delete a volume group   
+    become: true
+    community.general.lvg:
+      vg: "{{ vg_name }}"
+      pvs: "{{ disk }}"
+      pvresize: yes
+      state: absent
+      force: yes
+    register: vgs
+     
+
+  - name: delete mount directory
+    become: true
+    ansible.builtin.file:
+      path: "{{ folder_path }}"
+      #recurse: true
+      state: absent
+      mode: "{{ folder_mode }}"
+      owner: "{{ folder_owner }}"
+      group: "{{ folder_group }}"
+
+
+
+  - name: delete phisical lvm diks 
+    command: pvremove "{{ disk }}"
+    become: true
+
+
+
+
+        
+ 

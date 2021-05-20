@@ -1,0 +1,11 @@
+  - name: install samba
+    include_tasks: install.yml
+  
+  - name: configure share
+    include_tasks: share.yml 
+
+  - name: configure selinux 
+    include_tasks: selinux.yml
+
+  - name: start samba service 
+    include_tasks: smb.yml

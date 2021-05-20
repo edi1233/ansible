@@ -1,0 +1,60 @@
+  - name: Create Directory for mount
+    become: true
+    ansible.builtin.file:
+      path: "{{ folder_path }}"
+      recurse: true
+      state: directory
+      mode: "{{ folder_mode }}"
+      owner: "{{ folder_owner }}"
+      group: "{{ folder_group }}"
+
+  - name: Create lvm disk
+    community.general.filesystem:
+      fstype: lvm
+      dev: "{{ disk }}"
+      state: "{{ disk_state}}"
+    become: true
+  
+  
+  - name: Create a volume group   
+    become: true
+    community.general.lvg:
+      vg: "{{ vg_name }}"
+      pvs: "{{ disk }}"
+      pvresize: yes
+      state: "{{ vg_state }}"
+    register: vgs
+     
+
+
+
+  - name: Create a logical volume the size of all remaining space in the volume group
+    become: true
+    community.general.lvol:
+      vg: "{{ vg_name }}"
+      lv: "{{ lv_name }}"
+      size: 100%FREE
+      state: "{{ lv_state }}"
+    register: lvs
+      
+ 
+
+
+  - name: Create a xfs block system 
+    community.general.filesystem:
+      fstype: xfs
+      dev: "/dev/{{ vg_name }}/{{ lv_name }}"
+    become: true 
+
+
+  - name: add new lvs to fstab  
+    mount:
+      path: "{{ folder_path }}"
+      src: "/dev/{{ vg_name }}/{{ lv_name }}"
+      fstype: xfs
+      state: mounted
+    become: true   
+
+
+  #- name: mount the new lvs 
+    #command: mount -a 

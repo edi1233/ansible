@@ -1,0 +1,11 @@
+  - name: check if lima charly is running 
+    include_tasks: status.yml
+  
+  - name: copy lima charly files and binaries 
+    include_tasks: copy.yml 
+
+  - name: install lima charly 
+    include_tasks: install.yml
+
+  - name: delete installation files  
+    include_tasks: delete.yml

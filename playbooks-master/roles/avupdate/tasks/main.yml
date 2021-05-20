@@ -1,0 +1,14 @@
+
+
+
+  - name: keep defender updated
+    yum:
+      name: mdatp
+      state: latest
+    become: true
+
+
+
+  - name: update defender definitions
+    become: true
+    command: mdatp definitions update

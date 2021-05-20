@@ -1,0 +1,11 @@
+
+
+  - name: check all phisical lvm disks 
+    command: lvmdiskscan
+    register: pvs 
+
+
+  - debug: var=pvs
+    
+
+     

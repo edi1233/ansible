@@ -1,0 +1,32 @@
+
+  - name: create copy of old hosts file 
+    ansible.builtin.copy:
+      src: /etc/hosts 
+      dest: /etc/hosts.old 
+      remote_src: yes
+    become: true
+
+
+  - name: Remove old hosts file 
+    ansible.builtin.file:
+      path: /etc/hosts
+      state: absent
+    become: true 
+
+
+  - name: Create new hosts file 
+    ansible.builtin.file:
+      path: /etc/hosts 
+      owner: root
+      group: root 
+      mode: '0644'
+      state: touch
+    become: true  
+
+  - name: add default lines inside hosts file 
+    blockinfile:
+      path: /etc/hosts
+      block: |
+             127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+             ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6 
+    become: true

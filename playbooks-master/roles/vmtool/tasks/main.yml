@@ -1,0 +1,50 @@
+  - name: Get status of vmware old vmtools
+    ansible.builtin.stat:
+      path: /usr/bin/vmware-uninstall-tools.pl
+    register: vmtool_check
+    become: true
+    
+
+  - name: delete old vmware tools
+    shell: /usr/bin/vmware-uninstall-tools.pl
+    ignore_errors: yes
+    become: true
+    when: vmtool_check.stat.exists
+
+
+
+  - name: Gather the package facts
+    ansible.builtin.package_facts:
+      manager: auto
+
+  - name: Print the package facts
+    ansible.builtin.debug:
+      var: ansible_facts.packages['open-vm-tools']
+
+
+
+  - name: install open vm tools 
+    yum: 
+      name: open-vm-tools
+      state: latest
+    become: true
+    when: "'open-vm-tools' not in ansible_facts.packages"   
+  
+
+
+  - name: Gathering service facts filter vmtoolsd
+    service_facts:
+    register: services_state
+  - debug: var=services_state.ansible_facts.services["vmtoolsd.service"].state
+
+
+  - name: enshure open vm tools  is running
+    ansible.builtin.service:
+      name: vmtoolsd.service
+      state: started
+    become: true
+    when: ansible_facts.services["vmtoolsd.service"].state  == "stopped" or 
+          ansible_facts.services["vmtoolsd.service"].state  == "unknown"
+
+
+

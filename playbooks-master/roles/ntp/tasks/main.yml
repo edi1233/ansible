@@ -1,0 +1,7 @@
+
+
+  - name: restart ntp servcie 
+    ansible.builtin.service:
+      name: ntpd.service
+      state: restarted
+    become: true

@@ -1,0 +1,36 @@
+
+
+
+
+  - name: restart network service  
+    ansible.builtin.service:
+      name: network.service
+      state: restarted
+    become: true
+
+
+  - name: test
+    ansible.builtin.stat:
+      path: /etc/resolv.conf
+    register: resolv_conf
+    become: true
+
+  - name: check nameservers list in resolv.conf
+    debug:
+      msg: "{{ contents }}"
+    vars:
+      contents: "{{ lookup('file', '/etc/resolv.conf') | regex_findall('\\s*nameserver\\s*(.*)') }}"
+    when: resolv_conf.stat.exists == True 
+    register: dns_ips
+
+
+  - debug: 
+      msg: "{{ dns_ips.msg }}" 
+
+
+  - name: save vars
+    local_action: 
+      module: ansible.builtin.lineinfile
+      line:  "{{ inventory_hostname }} {{ dns_ips.msg }}" 
+      path: /tmp/dnsrec.txt
+      state: present
