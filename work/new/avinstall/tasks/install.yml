@@ -1,0 +1,40 @@
+
+
+  - name: Install microsoft defender
+    yum:
+      name: libatomic
+      state: latest
+    become: true 
+    when: ansible_distribution == 'RedHat' or  ansible_distribution == 'CentOS'
+
+
+  - name: Install microsoft defender
+    apt:
+      name: libatomic
+      state: latest
+    become: true
+    when: ansible_distribution == 'Ubuntu'
+
+
+  - name: Install microsoft defender
+    yum:
+      name: mdatp
+      state: latest
+    become: true 
+    when: ansible_distribution == 'RedHat' or  ansible_distribution == 'CentOS' 
+
+  - name: Install microsoft defender
+    apt:
+      name: mdatp
+      state: latest
+    become: true
+    when: ansible_distribution == 'Ubuntu'
+
+
+
+  - name: enshure mdatp is running
+    ansible.builtin.service:
+      name: mdatp.service
+      state: started
+    become: true
+     

@@ -1,0 +1,24 @@
+
+
+
+
+  - name: check the status of redhat registration
+    shell: subscription-manager list
+    register: subscription_status
+    become: true 
+    when: ansible_distribution == 'RedHat'
+  
+  - debug: 
+      msg: "{{ subscription_status.stdout_lines[7] }}"
+    when: ansible_distribution == 'RedHat'
+    register: 
+
+
+  - name: Register system on redhat servers 
+    community.general.redhat_subscription:
+      state: present
+      username: "{{ rhn_user }}"
+      password: "{{ rhn_pass }}"
+      auto_attach: true
+    become: true
+    when: "not subscription_status.stdout_lines[7] == 'Status:         Subscribed'"

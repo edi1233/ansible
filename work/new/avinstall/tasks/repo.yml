@@ -1,0 +1,25 @@
+  - name: add repos for microsoft defender for rhel
+    ansible.builtin.command: yum-config-manager --add-repo=https://packages.microsoft.com/config/centos/7/prod.repo 
+    become: true 
+    when: ansible_distribution == 'RedHat' or  ansible_distribution == 'CentOS'
+
+  - name: add microsoft gpg key for rhel
+    ansible.builtin.command: rpm --import http://packages.microsoft.com/keys/microsoft.asc
+    become: true 
+    when: ansible_distribution == 'RedHat' or  ansible_distribution == 'CentOS'
+
+  
+
+  - name: Add Microsoft APT key
+    apt_key:
+      keyserver: https://packages.microsoft.com/
+      id: BC528686B50D79E339D3721CEB3E94ADBE1229CF 
+    when: ansible_distribution == 'Ubuntu' 
+
+  - name: Add Microsoft apt repository for MDATP
+    apt_repository:
+      repo: deb [arch=arm64,armhf,amd64] https://packages.microsoft.com/[distro]/[version]/prod [channel] main
+      update_cache: yes
+      state: present
+      filename: microsoft-[channel].list
+    when: ansible_os_family == "Ubuntu"
